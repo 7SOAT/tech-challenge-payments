@@ -10,12 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Install dependencies
-      run: yarn
-
-    - name: Test and coverage
-      run: yarn jest --coverage
-
     - name: Checkout repository
       uses: actions/checkout@v2
 

@@ -1,0 +1,50 @@
+name: Build and SonarQube Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Build the project
+      - name: Build project
+        run: npm run build
+
+      # Step 5: Run SonarQube analysis
+      - name: SonarQube Scan
+        env:
+          SONAR_TOKEN: 6e60b98a96c0fd99558f5ce990e8f3f8fa2c3cfd
+        run: |
+          npm install -g sonar-scanner
+          sonar-scanner \
+            -Dsonar.projectKey=tech-challenge-payments \
+            -Dsonar.sources=src \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=6e60b98a96c0fd99558f5ce990e8f3f8fa2c3cfd
+
+      # Step 6: Check coverage threshold
+      - name: Check coverage
+        run: |
+          coverage=$(cat coverage/summary.txt | grep 'Statements' | awk '{print $3}' | sed 's/%//')
+          if (( $(echo "$coverage < 70" | bc -l) )); then
+            echo "Coverage is below 70%. Failing the build."
+            exit 1
+          fi
