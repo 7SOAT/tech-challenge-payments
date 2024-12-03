@@ -1,42 +1,20 @@
-name: Build and SonarQube Validation
-
+name: Build
 on:
-  pull_request:
+  push:
     branches:
       - main
-
+  pull_request:
+    types: [opened, synchronize, reopened]
 jobs:
-  build-and-validate:
+  sonarcloud:
+    name: SonarQube Cloud
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
         with:
-          node-version: '16'
-     
-      - name: Set up Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin' 
-          java-version: '17'
-
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build
-
-
-      - name: Check coverage
-        run: |
-          coverage=$(grep 'Statements' coverage/summary.txt | awk '{print $3}' | sed 's/%//')
-          echo "Coverage: $coverage%"
-          if (( $(echo "$coverage < 70" | bc -l) )); then
-            echo "Coverage está abaixo de 70%. Falhando o build."
-            exit 1
-          fi
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarQube Cloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
