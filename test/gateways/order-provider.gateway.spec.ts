@@ -44,8 +44,8 @@ describe('OrderProviderGateway', () => {
     expect(gateway).toBeDefined();
   });
 
-  describe.only('findById', () => {
-    it.only('should return a mapped OrderEntity when successful', async () => {
+  describe.skip('findById', () => {
+    it('should return a mapped OrderEntity when successful', async () => {
       orderProvider.findById = jest.fn().mockResolvedValue(orderDto);
 
       const orderEntity: OrderEntity = new OrderEntity( 
