@@ -38,7 +38,7 @@ jobs:
         run: |
           npm install -g sonar-scanner
           sonar-scanner \
-            -Dsonar.projectKey=seu_project_key \
+            -Dsonar.projectKey=tech-challenge-payments \
             -Dsonar.sources=src \
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
