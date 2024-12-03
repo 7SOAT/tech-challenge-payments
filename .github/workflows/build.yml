@@ -10,41 +10,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the code
       - name: Checkout code
         uses: actions/checkout@v3
-
-      # Step 2: Set up Node.js
+      
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16'
 
-      # Step 3: Install dependencies
+     
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' 
+          java-version: '17'
+
+
       - name: Install dependencies
         run: npm install
 
-      # Step 4: Build the project
       - name: Build project
         run: npm run build
 
-      # Step 5: Run SonarQube analysis
       - name: SonarQube Scan
         env:
-          SONAR_TOKEN: 6e60b98a96c0fd99558f5ce990e8f3f8fa2c3cfd
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           npm install -g sonar-scanner
           sonar-scanner \
-            -Dsonar.projectKey=tech-challenge-payments \
+            -Dsonar.projectKey=seu_project_key \
             -Dsonar.sources=src \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=6e60b98a96c0fd99558f5ce990e8f3f8fa2c3cfd
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
-      # Step 6: Check coverage threshold
       - name: Check coverage
         run: |
-          coverage=$(cat coverage/summary.txt | grep 'Statements' | awk '{print $3}' | sed 's/%//')
+          coverage=$(grep 'Statements' coverage/summary.txt | awk '{print $3}' | sed 's/%//')
+          echo "Coverage: $coverage%"
           if (( $(echo "$coverage < 70" | bc -l) )); then
-            echo "Coverage is below 70%. Failing the build."
+            echo "Coverage está abaixo de 70%. Falhando o build."
             exit 1
           fi
