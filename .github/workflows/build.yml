@@ -34,8 +34,8 @@ jobs:
       - name: SonarQube Cloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_PROJECT_KEY: 7SOAT_tech-challenge-payments  # Defina a chave do projeto aqui
-          SONAR_ORGANIZATION: 7soat  # Defina a organização aqui
-          SONAR_SCANNER_OPTS: "-Dsonar.javascript.lcov.reportPaths=coverage/lcov-report/index-lcov-report.txt"  # Defina o caminho do arquivo de cobertura
+          SONAR_PROJECT_KEY: 7SOAT_tech-challenge-payments
+          SONAR_ORGANIZATION: 7soat
+          SONAR_SCANNER_OPTS: "-Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info"
