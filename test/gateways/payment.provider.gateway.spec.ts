@@ -3,12 +3,10 @@ import PaymentProviderGateway from '../../src/adapters/gateways/payment-provider
 import EnvironmentConfigService from '../../src/api/config/environment-config/environment-config.service';
 import OrderEntity from '../../src/core/entities/order/order.entity';
 import { UUID } from 'crypto';
-import OrderItemDto from '../../src/externals/providers/mercado-pago/dto/request/create-order-item.dto';
 import PaymentProvider from '../../src/externals/providers/mercado-pago/mercado-pago.provider';
 import PaymentConfig from '../../src/package/interfaces/config/mercado-pago.config';
 import { CreateOrderPaymentDto } from 'externals/providers/mercado-pago/dto/request/create-order-request.dto';
 
-// Mocks
 jest.mock('../../src/externals/providers/mercado-pago/mercado-pago.provider');
 jest.mock('../../src/api/config/environment-config/environment-config.service');
 
