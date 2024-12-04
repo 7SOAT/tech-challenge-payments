@@ -38,4 +38,4 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_PROJECT_KEY: 7SOAT_tech-challenge-payments
           SONAR_ORGANIZATION: 7soat
-          SONAR_SCANNER_OPTS: "-Dsonar.javascript.lcov.reportPaths=../../coverage/lcov.info"
+          SONAR_SCANNER_OPTS: "-Dsonar.javascript.lcov.reportPaths=/coverage/lcov.info"
