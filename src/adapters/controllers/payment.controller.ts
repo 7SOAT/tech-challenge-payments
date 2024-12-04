@@ -24,6 +24,8 @@ export default class PaymentController {
   async confirmPaymentWebhook({ id: externalPaymentId, topic: messageType }: ConfirmPaymentDto): Promise<void> {
     if (messageType === 'payment') {
       await this._paymentUseCase.confirmPayment(externalPaymentId);
+    } else {
+      return null;
     }
   }
 
