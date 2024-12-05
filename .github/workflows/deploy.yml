@@ -23,8 +23,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/tc-production-microservice:latest .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/tc-payments-microservice:latest .
 
       - name: Push Docker image to Docker Hub
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/tc-production-microservice:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/tc-payments-microservice:latest
